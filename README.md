@@ -1,4 +1,5 @@
 Sarah Lawsky
+
 October 2022
 
 The goal here is to put together selected Code and regulations for a tax class. Here are the steps.
