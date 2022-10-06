@@ -12,4 +12,4 @@ The goal here is to put together selected Code and regulations for a tax class. 
 6. Run [parseregsfromhtml.py](https://github.com/slawsk/selectedSections/blob/main/parseregsfromhtml.py) - the sample source file for the regs you want to use is [regsectionstouse.xlsx](https://github.com/slawsk/selectedSections/blob/main/regsectionstouse.xlsx)
 7. The result is HTML - covert that to a PDF however you want.
 8. Now put the two PDFs together. I put an [edited table of contents for the whole IRC](https://github.com/slawsk/selectedSections/blob/main/TOCCodeEdited.pdf) and also the [up to date inflation adjusting Rev Proc](https://github.com/slawsk/selectedSections/blob/main/RevProc21-45.pdf) at the beginning - I've added those PDFs to this file too in case you want to use them.
-9. Here's a You can see [a sample of what the completed version could look like](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSectionsFall2022.pdf).
+9. Here's a [a sample of what the completed version could look like](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSectionsFall2022.pdf).
