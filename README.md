@@ -1,15 +1,12 @@
-Sarah Lawsky
+Sarah Lawsky / October 2022
 
-October 2022
+The goal here is to put together selected Code and regulations for a tax class. To run the program, you will need to
 
-The goal here is to put together selected Code and regulations for a tax class. Here are the steps.
+1. Download the XML for 26 USC from http://uscode.house.gov/download/download.shtml
+2. Download the relevant regulations in html from https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1 and, for the 301 regs, https://www.ecfr.gov/current/title-26/chapter-I/subchapter-F/part-301/subpart-ECFR5ffaf3310af6b61?toc=1
 
-1. Download 26 USC from http://uscode.house.gov/download/download.shtml
-2. Create a version of this with no annoying notes at the end by running [create26nonotes.py](https://github.com/slawsk/selectedSections/blob/main/create26nonotes.py)
-3. Use an Excel file with the code sections you want -- the sample is in [codesectionstouse.xlsx](https://github.com/slawsk/selectedSections/blob/main/codesectionstouse.xlsx) - and run [parse26.py](https://github.com/slawsk/selectedSections/blob/main/parse26.py). This will create an XML file with the sections you want. 
-4. Convert that XML file into a PDF.
-5. Regulation time! Get the html from https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1 and, for the 301 regs, https://www.ecfr.gov/current/title-26/chapter-I/subchapter-F/part-301/subpart-ECFR5ffaf3310af6b61?toc=1
-6. Run [parseregsfromhtml.py](https://github.com/slawsk/selectedSections/blob/main/parseregsfromhtml.py) - the sample source file for the regs you want to use is [regsectionstouse.xlsx](https://github.com/slawsk/selectedSections/blob/main/regsectionstouse.xlsx)
-7. The result is HTML - covert that to a PDF however you want.
-8. Now put the two PDFs together. I put an [edited table of contents for the whole IRC](https://github.com/slawsk/selectedSections/blob/main/TOCCodeEdited.pdf) and also the [up to date inflation adjusting Rev Proc](https://github.com/slawsk/selectedSections/blob/main/RevProc21-45.pdf) at the beginning - I've added those PDFs to this file too in case you want to use them.
-9. Here's a [a sample of what the completed version could look like](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSectionsFall2022.pdf).
+The output of this program will be an XML file (for the Code) and an HTML file (for the regs). You will need to convert those files to PDF and stitch them together.
+
+When I create the selected sections for my course, I put an [edited table of contents for the whole IRC](https://github.com/slawsk/selectedSections/blob/main/TOCCodeEdited.pdf) and also the [up to date inflation adjusting Rev Proc](https://github.com/slawsk/selectedSections/blob/main/RevProc21-45.pdf) at the beginning - I've added those PDFs to this file too in case you want to use them.
+
+Here's a [a sample of what the completed version could look like](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSectionsFall2022.pdf).
