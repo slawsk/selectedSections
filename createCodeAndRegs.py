@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  6 05:59:26 2022
-
-@author: Sarah
-"""
-
 from bs4 import BeautifulSoup
 import pandas as pd
 
 
 def create26NoNotes(source26File,outputTitle):
+    #URL: https://uscode.house.gov/download/download.shtml
+    #The specific URL for Title 26 is https://uscode.house.gov/download/releasepoints/us/pl/117/214/xml_usc26@117-214.zip
     file = open(outputTitle, 'w',encoding='utf-8')
     with open(source26File,encoding='utf8') as fp:
         soup = BeautifulSoup(fp,'xml')
@@ -61,7 +57,6 @@ def parse26(source26,sectionsToUse,outputTitle):
             section_number = section_to_add.num
             section_title = section_to_add.heading
             section_num_and_title = f"<section>{section_number}{section_title}</section>"
-            print(section_num_and_title)
             file.write(section_num_and_title)
             for item in list_selected:
                 subsection_identifier = section_identifier
@@ -79,14 +74,25 @@ def createRegsFile(sourceRegsTitle):
     # For the 301 regs, go to here and save the relevant regs with the appropriate titles (see below): https://www.ecfr.gov/current/title-26/chapter-I/subchapter-F/part-301/subpart-ECFR5ffaf3310af6b61?toc=
     
     #string together all the relevant regulations
-    filenames = ['title-26.htm','title-26-7701-1.html','title-26-7701-2.html','title-26-7701-3.html']
+    filenames = ['title-26-reg.htm','title-26-7701-1.html','title-26-7701-2.html','title-26-7701-3.html']
     
-    with open(sourceRegsTitle,'w',encoding='utf8') as outfile:
-        for fname in filenames:
-            with open(fname,encoding='utf8') as infile:
-                outfile.write(infile.read())
+    reg_string = ''
     
-    outfile.close()
+    for fname in filenames:
+        print(fname)
+        with open(fname,encoding='utf8') as infile:
+            data = infile.read()
+            reg_string = reg_string+data
+        
+    soup = BeautifulSoup(reg_string,'lxml')
+    
+    #get rid of the editorial notes
+    for p in soup.find_all('div',attrs={"class":"editorial-note"}):
+        p.decompose()
+    
+    file = open(sourceRegsTitle,'w',encoding='utf8')
+    file.write(str(soup))
+    file.close()
         
 def parseRegs(sourceRegs,sectionsToUse,outputTitle):
 
@@ -106,6 +112,7 @@ def parseRegs(sourceRegs,sectionsToUse,outputTitle):
     df=pd.read_excel(sectionsToUse,sheet_name="PartA")
     
     code_sections_list = df['Regulation'].tolist()
+    subsections_list=df['Subsection'].tolist()
     
     file_title = outputTitle
         
@@ -118,27 +125,38 @@ def parseRegs(sourceRegs,sectionsToUse,outputTitle):
         soup = BeautifulSoup(fp,'lxml')
     
     
-    #get rid of the editorial notes
-    for p in soup.find_all('div',attrs={"class":"editorial-note"}):
-        p.decompose()
-    
-    
     #include the relevant sections
     for item in code_sections_list:
-        identifier=f"{item}"
-        section_to_add = soup.find('div',attrs={"class":"section",'id':identifier})
-        file.write(str(section_to_add))
-    
-    
+        index_item = code_sections_list.index(item)
+        section_identifier=f"{item}"
+        section_to_add = soup.find('div',attrs={"class":"section",'id':section_identifier})
+        selected_subsections = subsections_list[index_item]
+        if  selected_subsections == 'all':
+            file.write(str(section_to_add))
+        else:
+            list_selected = list(selected_subsections.split(','))
+            section_num_and_title = section_to_add.find('h4')
+            file.write(str(section_num_and_title))
+            for item in list_selected:
+                for element in item:
+                    subsection_identifier = f"p-{section_identifier}({element})"
+                subsection_to_add = soup.find('div',{'id':subsection_identifier})
+                file.write(str(subsection_to_add))
     
     file.write(endtext)
     
     file.close()
 
-def createCodeAndRegs(source26,Sec26NoNotesTitle,codeSectionsToUse,codeOutputTitle,sourceRegsTitle,regSectionsToUse,regOutputTitle):
+def createCode(source26,Sec26NoNotesTitle,codeSectionsToUse,codeOutputTitle):
     parse26(source26,codeSectionsToUse,Sec26NoNotesTitle)
     create26NoNotes(Sec26NoNotesTitle,codeOutputTitle)
+
+def createRegs(sourceRegsTitle,regSectionsToUse,regOutputTitle):
     createRegsFile(sourceRegsTitle)
     parseRegs(sourceRegsTitle,regSectionsToUse,regOutputTitle)
+
+def createCodeAndRegs(source26,Sec26NoNotesTitle,codeSectionsToUse,codeOutputTitle,sourceRegsTitle,regSectionsToUse,regOutputTitle):
+    createCode(source26,Sec26NoNotesTitle,codeSectionsToUse,codeOutputTitle)
+    createRegs(sourceRegsTitle,regSectionsToUse,regOutputTitle)
     
-createCodeAndRegs('usc26.xml','Section26NoNotesTest.xml','codesectionstouse.xlsx','SelectedSections.xml','title-26-all-est.htm','regsectionstousepartnership.xlsx','SelectedRegulations.html')
+createCodeAndRegs('usc26.xml','Section26NoNotes.xml','codesectionstouse.xlsx','SelectedSections.xml','title-26-all-est.htm','regsectionstouse.xlsx','SelectedRegulations.html')
