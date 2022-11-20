@@ -22,4 +22,4 @@ When I create the selected sections for my course, I put an [edited table of con
 
 Here's a [a sample of what the completed version could look like--this is for 2022 basic tax classes](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSectionsFall2022.pdf).
 
-And here's a sample for (Partnership Tax for 2023)[https://github.com/slawsk/selectedSections/blob/main/SelectedSectionsPartnershipCodeRegs2023ToUpload.pdf].
+And here's a sample for [Partnership Tax for 2023](https://github.com/slawsk/selectedSections/blob/main/SelectedSectionsPartnershipCodeRegs2023ToUpload.pdf).
