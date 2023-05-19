@@ -18,8 +18,8 @@ To run the program:
 
 The output of this program will be an XML file (for the Code) and an HTML file (for the regs). You will need to convert those files to PDF and stitch them together. You can also download the relevant CSS files from the websites above; I've modified the CSS files I have in this repository to style the documents how I like them.
 
-When I create the selected sections for my course, I also put (1) an [edited table of contents for the whole IRC](https://github.com/slawsk/selectedSections/blob/main/TOCCodeEdited.pdf), (2) the up-to-date inflation-adjusting Revenue Procedure ([2023](https://github.com/slawsk/selectedSections/blob/main/revProcInflation2023.pdf)), and (3) for basic tax, excerpts from Rev. Proc. 87-57, the depreciation tables.
+When I create the selected sections for my course, I also put (1) an [edited table of contents for the whole IRC](https://github.com/slawsk/selectedSections/blob/main/TOCCodeEdited.pdf), (2) the up-to-date inflation-adjusting Revenue Procedure ([2023](https://github.com/slawsk/selectedSections/blob/main/revProcInflation2023.pdf)), and (3) for basic tax, [excerpts from Rev. Proc. 87-57]( ), the depreciation tables.
 
-Here's a [a sample of what the completed version could look like--this is for 2023 basic tax classes](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSectionsFall2022.pdf).
+Here's a [a sample of what the completed version could look like--this is for 2023 basic tax classes](https://github.com/slawsk/selectedSections/blob/main/SelectedCodeandRegSections.pdf).
 
 And here's a sample for [Partnership Tax for 2023](https://github.com/slawsk/selectedSections/blob/main/SelectedSectionsPartnershipCodeRegs2023ToUpload.pdf).
