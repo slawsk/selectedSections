@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+Created on Thu Oct  6 05:59:26 2022
+
+@author: Sarah
+"""
+
 from bs4 import BeautifulSoup
 import pandas as pd
+
+###After downloading files for regulations, fix the problem in 1.704-2(m) and 1.751-1(g) that the /div is in the wrong place and the regulations don't print.
 
 
 def create26NoNotes(source26File,outputTitle):
@@ -71,10 +79,11 @@ def parse26(source26,sectionsToUse,outputTitle):
 
 def createRegsFile(sourceRegsTitle):
     #URL: https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1 , save the HTML file
-    # For the 301 regs, go to here and save the relevant regs with the appropriate titles (see below): https://www.ecfr.gov/current/title-26/chapter-I/subchapter-F/part-301/subpart-ECFR5ffaf3310af6b61?toc=
+    # for the 15a installment sale regs, https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-15a
+    # For the 301 regs, go to here and save the relevant regs with the appropriate titles (see below): https://www.ecfr.gov/current/title-26/chapter-I/subchapter-F/part-301/subpart-ECFR5ffaf3310af6b61
     
     #string together all the relevant regulations
-    filenames = ['title-26-reg.htm','title-26-7701-1.html','title-26-7701-2.html','title-26-7701-3.html']
+    filenames = ['title-26-reg.htm','title-26-reg-15a.htm']
     
     reg_string = ''
     
@@ -109,7 +118,7 @@ def parseRegs(sourceRegs,sectionsToUse,outputTitle):
     
     
     #create the file
-    df=pd.read_excel(sectionsToUse,sheet_name="PartA")
+    df=pd.read_excel(sectionsToUse)
     
     code_sections_list = df['Regulation'].tolist()
     subsections_list=df['Subsection'].tolist()
@@ -157,6 +166,9 @@ def createRegs(sourceRegsTitle,regSectionsToUse,regOutputTitle):
 
 def createCodeAndRegs(source26,Sec26NoNotesTitle,codeSectionsToUse,codeOutputTitle,sourceRegsTitle,regSectionsToUse,regOutputTitle):
     createCode(source26,Sec26NoNotesTitle,codeSectionsToUse,codeOutputTitle)
-    createRegs(sourceRegsTitle,regSectionsToUse,regOutputTitle)
+    parseRegs(sourceRegsTitle,regSectionsToUse,regOutputTitle)
     
-createCodeAndRegs('usc26.xml','Section26NoNotes.xml','codesectionstouse.xlsx','SelectedSections.xml','title-26-all-est.htm','regsectionstouse.xlsx','SelectedRegulations.html')
+#createCodeAndRegs('usc26.xml','Section26NoNotes.xml','codesectionstouse.xlsx','SelectedSections20230226.xml','title-26-reg.htm','regsectionstouse.xlsx','SelectedRegulations20230223.html')
+
+createRegs('title-26-all.htm','regsectionstouse.xlsx','SelectedRegulations20230226.html')
+#createCode('usc26.xml','Section26NoNotes.xml','codesectionstousepartnership.xlsx','SelectedPshipSections20221226.xml')
