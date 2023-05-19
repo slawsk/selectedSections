@@ -14,7 +14,7 @@ To run the program:
 
 3. Download the relevant regulations in HTML  from https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1 and, for the 301 regs, https://www.ecfr.gov/current/title-26/chapter-I/subchapter-F/part-301/subpart-ECFR5ffaf3310af6b61?toc=1
 
-4. Run the program in [createCodeandRegs.py](https://github.com/slawsk/selectedSections/blob/main/createCodeAndRegs.py)
+4. Run the program in [createCodeAndRegs.py](https://github.com/slawsk/selectedSections/blob/main/createCodeAndRegs.py)
 
 The output of this program will be an XML file (for the Code) and an HTML file (for the regs). You will need to convert those files to PDF and stitch them together. You can also download the relevant CSS files from the websites above; I've modified the CSS files I have in this repository to style the documents how I like them.
 
