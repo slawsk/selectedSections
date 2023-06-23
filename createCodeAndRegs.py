@@ -412,6 +412,7 @@ def create_code_book(bookname,sectionsToUse,timenum):
 def create_book_from_files(code_html,reg_html):
     code_name = 'saved_code/04B currentcode.pdf'
     reg_name = 'saved_code/05B currentregs.pdf'
+    
     #convert the code html to PDF
     
     convert_to_pdf(code_html,code_name) 
@@ -432,18 +433,3 @@ def create_book_from_files(code_html,reg_html):
     
     merge_pdfs(dir_list_2,'pdftitle')
 
-
-   
-
-#convert_code_to_html('saved_code/codehtmltest.xml','saved_code/codehtmltest2.html','12356')
- 
-#parse26('USC_26_New/CodeAndRegSectionsToUse.xlsx','codefillertitle.xml')
-#convert_code_to_html('codefillertitle.xml','codefillertitle.html',6)
-#create26NoNotes()
-  
-#createCodeAndRegs('usc26.xml','Section26NoNotes.xml','codesectionstouse.xlsx','SelectedSections20230226.xml','title-26-reg.htm','regsectionstouse.xlsx','SelectedRegulations20230223.html')
-
-#createRegs('title-26-all.htm','regsectionstouse.xlsx','SelectedRegulations20230226.html')
-#createCode('usc26.xml','Section26NoNotes.xml','codesectionstousepartnership.xlsx','SelectedPshipSections20221226.xml')
-
-#createRegsFile()
