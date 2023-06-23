@@ -11,12 +11,12 @@ import os
 import functionmodules as fm
 import convertfile
 import cchardet
-import time
+from datetime import date
 import re
 import fitz
 import json
 
-current_year = fm.current_year
+current_year = date.today().year
 
 import pdfkit
 
