@@ -15,20 +15,10 @@ import time
 import re
 import fitz
 import json
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 
 current_year = fm.current_year
 
 import pdfkit
-from pypdf import PdfMerger, PdfReader, PdfWriter
-
-
-merger=PdfMerger()
 
 all_code_title_xml = f'CodeNoNotes_{current_year}.xml'
 all_code_title_html = f'CodeNoNotes_{current_year}.html'
@@ -402,7 +392,6 @@ def create_code_book(bookname,sectionsToUse,timenum):
    
    
     #convert the reg html to PDF
-    
     convert_to_pdf(f'saved_code/regfillertitle.{timenum}.html',reg_name)
     
     path_short = 'USC_26_New/FilesForBook'    
@@ -413,15 +402,13 @@ def create_code_book(bookname,sectionsToUse,timenum):
     dir_list_2.insert(-1,code_name)
     dir_list_2.append(reg_name)
     
-    #merge all the PDFs to create the whole book
-    
-    merge_pdfs(dir_list_2,f'saved_code/nopagenumbers.{timenum}')
-    
     #merge all the PDFs to create the whole book   
     merge_pdfs(dir_list_2,f'saved_code/nopagenumbers.{timenum}')
-    
+
+    #add the page numbers    
     add_page_numbers(f'saved_code/nopagenumbers.{timenum}.pdf', f'{bookname}.pdf')
     
+# this function is if you want to play around with this without generating the whole files first--it's just checking to see what the merger version looks like
 def create_book_from_files(code_html,reg_html):
     code_name = 'saved_code/04B currentcode.pdf'
     reg_name = 'saved_code/05B currentregs.pdf'
@@ -449,8 +436,6 @@ def create_book_from_files(code_html,reg_html):
    
 
 #convert_code_to_html('saved_code/codehtmltest.xml','saved_code/codehtmltest2.html','12356')
-
-
  
 #parse26('USC_26_New/CodeAndRegSectionsToUse.xlsx','codefillertitle.xml')
 #convert_code_to_html('codefillertitle.xml','codefillertitle.html',6)
