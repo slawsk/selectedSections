@@ -2,7 +2,7 @@ Sarah Lawsky / June 2023
 
 This is the code underlying the [Code and Regs page](https://www.lawskypracticeproblems.org/codeandregs) of Lawsky Practice Problems. You can see a sample PDF on that page.
 
-(To run this code, you will need to unzip the zipped RegDictionary in USC_26_New. Also notice that some of the files that are created and thrown away along the way get saved to a folder called saved_code)
+(To run this code, you will need to unzip the zipped RegDictionary in CodeRegs. Also notice that some of the files that are created and thrown away along the way get saved to a folder called saved_code)
 
 The goal here is to put together selected Code and regulations for a tax class.
 
