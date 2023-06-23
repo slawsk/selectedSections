@@ -24,24 +24,6 @@ all_code_title_xml = f'CodeNoNotes_{current_year}.xml'
 all_code_title_html = f'CodeNoNotes_{current_year}.html'
 all_regs_title = f'RegsNoNotes_{current_year}.html'
 
-    
-# begin_no_range_1 = 611
-# end_no_range_1 = 700
-
-# begin_no_range_2 = 801
-# end_no_range_2 = 861
-   
-# begin_no_range_3 = 1352
-# end_no_range_3 = 1411
-
-# begin_no_range_4 = 2001
-# end_no_range_4 = 6000
-
-# begin_no_range_5 = 6300
-# end_no_range_5 = 7655
-
-# absolute_max = 7702
-
 def find_the_code_section(x):
     return x.split('.', 1)[1].split('-',1)[0]
 
@@ -78,13 +60,6 @@ def create26NoNotes():
     div_library={}
     for div in div_elements:
         
-        #div_id = find_the_number(find_code_for_usc_26(div.get("identifier"))) # Get the ID attribute as an integer (default to 0 if ID is missing or not numeric)
-
-        # if (div_id >= begin_no_range_1 and div_id < end_no_range_1) or (div_id >= begin_no_range_2 and div_id < end_no_range_2) or (div_id >= begin_no_range_3 and div_id < end_no_range_3) or (div_id >= begin_no_range_4 and div_id < end_no_range_4) or (div_id >= begin_no_range_5 and div_id < end_no_range_5) or div_id > absolute_max :
-        #             div.decompose()  # Remove the div element
-    
-        # else:
-            
         section_number = div.num
         section_title = div.heading
         section_number_and_title = f"<section>{section_number}{section_title}</section>"
@@ -134,13 +109,7 @@ def createRegsFile():
     div_library = {}
     div_elements = soup.find_all("div", attrs={"class": "section"})
     for div in div_elements:
-    #     div_id = find_the_number(find_the_code_section(div.get("id"))) # Get the ID attribute as an integer (default to 0 if ID is missing or not numeric)
-
-    #     if (div_id >= begin_no_range_1 and div_id < end_no_range_1) or (div_id >= begin_no_range_2 and div_id < end_no_range_2) or (div_id >= begin_no_range_3 and div_id < end_no_range_3) or (div_id >= begin_no_range_4 and div_id < end_no_range_4) or (div_id >= begin_no_range_5 and div_id < end_no_range_5) or div_id > absolute_max :
-    #         div.decompose()  # Remove the div element
-            
-        # else:
-            div_library[str(div.get("id"))]=str(div) 
+        div_library[str(div.get("id"))]=str(div) 
 
     with open('RegDictionary.txt','w',encoding='utf-8') as txt_file:
         txt_file.write(json.dumps(div_library))
