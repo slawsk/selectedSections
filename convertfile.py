@@ -74,15 +74,16 @@ def convert_file_to_html(inputtitle,outputtitle):
     
     for i in range(1,6):
         soupystring = soupystring.replace(f"</h{i}><h{i}>", "")
-    
+         
+    soupystring = soupystring.replace("\u2000",'')
+    soupystring = soupystring.replace("\u202f",'')
+
     introtext = '''<!DOCTYPE html>
     <head>
     <meta charset="UTF-8">
-    <link href="../USC_26_New/codeStyle.css" rel="stylesheet" />
+    <link href="../CodeRegs/codeStyle.css" rel="stylesheet" />
     </head>'''
     
     # Write out the modified soup as HTML
     with open(outputtitle, "w",encoding='utf-8') as f:
         f.write(introtext+soupystring)
-
-

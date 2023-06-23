@@ -11,12 +11,12 @@ import os
 import functionmodules as fm
 import convertfile
 import cchardet
-from datetime import date
+import time
 import re
 import fitz
 import json
 
-current_year = date.today().year
+current_year = fm.current_year
 
 import pdfkit
 
@@ -25,22 +25,22 @@ all_code_title_html = f'CodeNoNotes_{current_year}.html'
 all_regs_title = f'RegsNoNotes_{current_year}.html'
 
     
-begin_no_range_1 = 611
-end_no_range_1 = 700
+# begin_no_range_1 = 611
+# end_no_range_1 = 700
 
-begin_no_range_2 = 801
-end_no_range_2 = 861
+# begin_no_range_2 = 801
+# end_no_range_2 = 861
    
-begin_no_range_3 = 1352
-end_no_range_3 = 1411
+# begin_no_range_3 = 1352
+# end_no_range_3 = 1411
 
-begin_no_range_4 = 2001
-end_no_range_4 = 6000
+# begin_no_range_4 = 2001
+# end_no_range_4 = 6000
 
-begin_no_range_5 = 6300
-end_no_range_5 = 7655
+# begin_no_range_5 = 6300
+# end_no_range_5 = 7655
 
-absolute_max = 7702
+# absolute_max = 7702
 
 def find_the_code_section(x):
     return x.split('.', 1)[1].split('-',1)[0]
@@ -67,7 +67,7 @@ def create26NoNotes():
     #URL: https://uscode.house.gov/download/download.shtml
     #The specific URL for Title 26 is https://uscode.house.gov/download/releasepoints/us/pl/117/214/xml_usc26@117-214.zip
     #file = open(all_code_title_xml, 'w',encoding='utf-8')
-    with open('USC_26_New/GovernmentDownloads/usc26.xml',encoding='utf8') as fp:
+    with open('CodeRegs/GovernmentDownloads/usc26.xml',encoding='utf8') as fp:
         soup = BeautifulSoup(fp,'xml')
     to_remove = ["note","notes","sourceCredit"]
     for r in to_remove:
@@ -78,33 +78,33 @@ def create26NoNotes():
     div_library={}
     for div in div_elements:
         
-        div_id = find_the_number(find_code_for_usc_26(div.get("identifier"))) # Get the ID attribute as an integer (default to 0 if ID is missing or not numeric)
+        #div_id = find_the_number(find_code_for_usc_26(div.get("identifier"))) # Get the ID attribute as an integer (default to 0 if ID is missing or not numeric)
 
-        if (div_id >= begin_no_range_1 and div_id < end_no_range_1) or (div_id >= begin_no_range_2 and div_id < end_no_range_2) or (div_id >= begin_no_range_3 and div_id < end_no_range_3) or (div_id >= begin_no_range_4 and div_id < end_no_range_4) or (div_id >= begin_no_range_5 and div_id < end_no_range_5) or div_id > absolute_max :
-                    div.decompose()  # Remove the div element
+        # if (div_id >= begin_no_range_1 and div_id < end_no_range_1) or (div_id >= begin_no_range_2 and div_id < end_no_range_2) or (div_id >= begin_no_range_3 and div_id < end_no_range_3) or (div_id >= begin_no_range_4 and div_id < end_no_range_4) or (div_id >= begin_no_range_5 and div_id < end_no_range_5) or div_id > absolute_max :
+        #             div.decompose()  # Remove the div element
     
+        # else:
+            
+        section_number = div.num
+        section_title = div.heading
+        section_number_and_title = f"<section>{section_number}{section_title}</section>"
+        
+        subsection_elements = div.find_all('subsection')
+        new_dict = {}
+        new_dict['num_title_string']=section_number_and_title
+    
+    
+        if subsection_elements:
+            for item in subsection_elements:
+                subsection_number = item.get("identifier").rsplit('/', 1)[1]
+                new_dict[subsection_number]=str(item)
+        
         else:
-            
-            section_number = div.num
-            section_title = div.heading
-            section_number_and_title = f"<section>{section_number}{section_title}</section>"
-            
-            subsection_elements = div.find_all('subsection')
-            new_dict = {}
-            new_dict['num_title_string']=section_number_and_title
-            
-            
-            if subsection_elements:
-                for item in subsection_elements:
-                    subsection_number = item.get("identifier").rsplit('/', 1)[1]
-                    new_dict[subsection_number]=str(item)
-            
-            else:
-                for tag in div.find_all(['num', 'heading']):
-                    tag.decompose()
-                new_dict['all']=str(div)
-            
-            div_library[find_code_for_usc_26(div.get("identifier"))]=new_dict
+            for tag in div.find_all(['num', 'heading']):
+                tag.decompose()
+            new_dict['all']=str(div)
+        
+        div_library[find_code_for_usc_26(div.get("identifier"))]=new_dict
     
     with open('CodeDictionary.txt','w',encoding='utf-8') as txt_file:
        txt_file.write(json.dumps(div_library))
@@ -117,7 +117,7 @@ def createRegsFile():
     
     #string together all the relevant regulations
     reg_string = ''
-    directory = 'USC_26_New/GovernmentDownloads/RegFiles'
+    directory = 'CodeRegs/GovernmentDownloads/RegFiles'
     for filename in os.listdir(directory):
         f = os.path.join(directory, filename)
         with open(f,encoding='utf8') as infile:
@@ -134,12 +134,12 @@ def createRegsFile():
     div_library = {}
     div_elements = soup.find_all("div", attrs={"class": "section"})
     for div in div_elements:
-        div_id = find_the_number(find_the_code_section(div.get("id"))) # Get the ID attribute as an integer (default to 0 if ID is missing or not numeric)
+    #     div_id = find_the_number(find_the_code_section(div.get("id"))) # Get the ID attribute as an integer (default to 0 if ID is missing or not numeric)
 
-        if (div_id >= begin_no_range_1 and div_id < end_no_range_1) or (div_id >= begin_no_range_2 and div_id < end_no_range_2) or (div_id >= begin_no_range_3 and div_id < end_no_range_3) or (div_id >= begin_no_range_4 and div_id < end_no_range_4) or (div_id >= begin_no_range_5 and div_id < end_no_range_5) or div_id > absolute_max :
-            div.decompose()  # Remove the div element
+    #     if (div_id >= begin_no_range_1 and div_id < end_no_range_1) or (div_id >= begin_no_range_2 and div_id < end_no_range_2) or (div_id >= begin_no_range_3 and div_id < end_no_range_3) or (div_id >= begin_no_range_4 and div_id < end_no_range_4) or (div_id >= begin_no_range_5 and div_id < end_no_range_5) or div_id > absolute_max :
+    #         div.decompose()  # Remove the div element
             
-        else:
+        # else:
             div_library[str(div.get("id"))]=str(div) 
 
     with open('RegDictionary.txt','w',encoding='utf-8') as txt_file:
@@ -213,7 +213,7 @@ def parse26(sectionsToUse,outputTitle):
    
     lookupdict = dict(zip(code_sections_list,listified))
  
-    with open('USC_26_New/CodeDictionary.txt','r',encoding='utf8') as fp:
+    with open('CodeRegs/CodeDictionary.txt','r',encoding='utf8') as fp:
         codestring = fp.read()
     code_dict = json.loads(codestring)
     
@@ -253,7 +253,7 @@ def convert_code_to_html(inputtitle,outputtitle,timenum):
     
     convertfile.convert_file_to_html(inputtitle,interim_title)
     
-    replace_dict = {'Thephaseoutamount':"The phaseout amount",'Thephaseoutpercentageis':'The phaseout percentage is', 'applicablerecovery': 'applicable recovery','periodis':'period is'}
+    replace_dict = {'Thephaseoutamount':"The phaseout amount",'Thephaseoutpercentageis':'The phaseout percentage is', '<b>The applicable</b><b>recovery period</b><b>is:</b>': '<b>The applicable recovery period is:</b>'}
     
     with open(interim_title, 'r',encoding='utf-8') as file:
         content = file.read()
@@ -272,7 +272,7 @@ def parseRegs(sectionsToUse,outputTitle):
     <html>
       <head>
       <meta charset="UTF-8">
-        <link href="../USC_26_New/regsStyle.css" rel="stylesheet" />
+        <link href="../CodeRegs/regsStyle.css" rel="stylesheet" />
       </head>
       <body>"""
       
@@ -289,7 +289,7 @@ def parseRegs(sectionsToUse,outputTitle):
 
     lookupdict = dict(zip(reg_sections_list,listified))
    
-    with open('USC_26_New/RegDictionary.txt','r',encoding='utf8') as fp:
+    with open('CodeRegs/RegDictionary.txt','r',encoding='utf8') as fp:
         regstring = fp.read()
     reg_dict = json.loads(regstring)
     
@@ -394,7 +394,7 @@ def create_code_book(bookname,sectionsToUse,timenum):
     #convert the reg html to PDF
     convert_to_pdf(f'saved_code/regfillertitle.{timenum}.html',reg_name)
     
-    path_short = 'USC_26_New/FilesForBook'    
+    path_short = 'CodeRegs/FilesForBook'    
     dir_list = sorted(os.listdir(path_short))
     
     dir_list_2 = [f'{path_short}/{x}' for x in dir_list]
@@ -412,7 +412,6 @@ def create_code_book(bookname,sectionsToUse,timenum):
 def create_book_from_files(code_html,reg_html):
     code_name = 'saved_code/04B currentcode.pdf'
     reg_name = 'saved_code/05B currentregs.pdf'
-    
     #convert the code html to PDF
     
     convert_to_pdf(code_html,code_name) 
@@ -421,7 +420,7 @@ def create_book_from_files(code_html,reg_html):
     
     convert_to_pdf(reg_html,reg_name)
     
-    path_short = 'USC_26_New/FilesForBook'    
+    path_short = 'CodeRegs/FilesForBook'    
     dir_list = sorted(os.listdir(path_short))
     
     dir_list_2 = [f'{path_short}/{x}' for x in dir_list]
@@ -433,3 +432,16 @@ def create_book_from_files(code_html,reg_html):
     
     merge_pdfs(dir_list_2,'pdftitle')
 
+
+#convert_code_to_html('saved_code/codehtmltest.xml','saved_code/codehtmltest2.html','12356')
+ 
+#parse26('CodeRegs/CodeAndRegSectionsToUse.xlsx','codefillertitle.xml')
+#convert_code_to_html('codefillertitle.xml','codefillertitle.html',6)
+#create26NoNotes()
+  
+#createCodeAndRegs('usc26.xml','Section26NoNotes.xml','codesectionstouse.xlsx','SelectedSections20230226.xml','title-26-reg.htm','regsectionstouse.xlsx','SelectedRegulations20230223.html')
+
+#createRegs('title-26-all.htm','regsectionstouse.xlsx','SelectedRegulations20230226.html')
+#createCode('usc26.xml','Section26NoNotes.xml','codesectionstousepartnership.xlsx','SelectedPshipSections20221226.xml')
+
+#createRegsFile()
