@@ -8,15 +8,14 @@ Created on Thu Oct  6 05:59:26 2022
 from bs4 import BeautifulSoup
 import pandas as pd
 import os
-import functionmodules as fm
+from datetime import date
 import convertfile
 import cchardet
-import time
 import re
 import fitz
 import json
 
-current_year = fm.current_year
+current_year = date.today().year
 
 import pdfkit
 
@@ -400,17 +399,3 @@ def create_book_from_files(code_html,reg_html):
     #merge all the PDFs to create the whole book
     
     merge_pdfs(dir_list_2,'pdftitle')
-
-
-#convert_code_to_html('saved_code/codehtmltest.xml','saved_code/codehtmltest2.html','12356')
- 
-#parse26('CodeRegs/CodeAndRegSectionsToUse.xlsx','codefillertitle.xml')
-#convert_code_to_html('codefillertitle.xml','codefillertitle.html',6)
-#create26NoNotes()
-  
-#createCodeAndRegs('usc26.xml','Section26NoNotes.xml','codesectionstouse.xlsx','SelectedSections20230226.xml','title-26-reg.htm','regsectionstouse.xlsx','SelectedRegulations20230223.html')
-
-#createRegs('title-26-all.htm','regsectionstouse.xlsx','SelectedRegulations20230226.html')
-#createCode('usc26.xml','Section26NoNotes.xml','codesectionstousepartnership.xlsx','SelectedPshipSections20221226.xml')
-
-#createRegsFile()
